@@ -86,3 +86,20 @@ add_filter('render_block', function ($block_content, $block) {
   }
   return $block_content;
 }, 10, 2);
+
+// Titel für Frontend-Seiten (Pages) ausgeben verhindern
+add_filter('the_title', 'rs_hide_page_titles_in_frontend', 10, 2);
+function rs_hide_page_titles_in_frontend($title, $post_id)
+{
+  // nichts im Admin-Bereich ändern
+  if (is_admin())
+    return $title;
+
+  // nur Haupt-Loop & nur Pages
+  if (is_page() && in_the_loop() && !is_admin()) {
+    // optional: bestimmte Seite ausschließen
+    // if ($post_id == 123) return $title;
+    return '';
+  }
+  return $title;
+}
